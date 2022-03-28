@@ -1,0 +1,5 @@
+http:// {
+    root * /var/www/public_html
+    encode gzip
+    file_server
+}

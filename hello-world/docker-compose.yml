@@ -1,0 +1,16 @@
+version: "3"
+services:
+  caddy:
+    restart: always
+    image: caddy:2.4.6
+    container_name: caddy
+    ports:
+      - "80:80"
+      - 2022:2022
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+volumes:
+  caddy_data: 
+  caddy_config:

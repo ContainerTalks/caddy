@@ -1,0 +1,37 @@
+:8080 {
+    log {
+        level  ERROR            #Default: INFO, Options available: INFO and ERROR
+        output file /var/log/access.log {
+            roll_disabled
+	        roll_size   1gb     #Default: 100MiB
+	        roll_uncompressed   #Default: gzip compression is enabled.
+	        roll_local_time     #Default: uses UTC time
+	        roll_keep   5       #Log files to keep,  Default: 10
+            roll_keep_for 72h   #Duration String, Default: 2160h (90 days)
+        }
+        # Delete the Authorization request header, likes sensitive data, from the logs
+        format filter {
+            wrap console
+            fields {
+                request>headers>Authorization delete
+            }
+	    }
+    }
+    handle /api* {
+		reverse_proxy localhost:7022
+	}
+	handle_path /files* {
+		root * /files
+		file_server browse
+	}
+	handle {
+		root * /srv
+		file_server browse
+	}
+}
+
+:7022 {
+	respond "Goodbye, world!" 
+}
+
+# QUESTION: https://stackoverflow.com/questions/71411688/caddy-file-server-browse-not-working-when-i-root-a-specific-directory

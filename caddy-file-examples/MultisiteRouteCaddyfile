@@ -1,0 +1,35 @@
+(https_header) {
+  header {
+    X-XSS-Protection "1; mode=block"
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "same-origin"
+    X-Frame-Options "SAMEORIGIN";
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
+  }
+}
+
+https://example.com  https://www.example.com {
+    reverse_proxy {
+        header_up X-Forwarded-Host $host;
+        header_up Upgrade $http_upgrade;
+        header_up Connection "Upgrade";
+        header_up Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
+        lb_policy round_robin
+        to 192.31.2.20:4000
+    }
+
+    rewrite /blog /blog/
+	handle /blog/* {
+        import https_header
+		uri strip_prefix /blog
+		root * /var/www/html
+        php_fastcgi wordpress:9000
+		file_server
+	}
+
+    header ?Cache-Control "max-age=3600"
+    encode zstd gzip
+    log {
+        output stdout
+    }
+}

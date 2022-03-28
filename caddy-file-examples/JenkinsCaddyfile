@@ -1,0 +1,17 @@
+https://pipeline.example.com {
+  reverse_proxy {
+    lb_policy round_robin
+    to 10.124.16.2:8081
+  }
+  header 'X-SSH-Endpoint' 'piepline.example.com:50022' always;
+  header {
+	  X-Content-Type-Options nosniff
+    Content-Security-Policy frame-ancestors 'self';
+    Strict-Transport-Security max-age=31536000; includeSubDomains; preload;
+	  Referrer-Policy no-referrer-when-downgrade
+  }
+  encode zstd gzip
+  log {
+    output stdout
+  }
+}

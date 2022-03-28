@@ -1,0 +1,12 @@
+example.com {
+	root * /var/www
+	file_server
+}
+
+# Port 8080 need to be opened from the container 
+# or netwrok firewall to access the service running on port 8080
+
+:8080 {
+	root * /var/www
+	file_server
+}

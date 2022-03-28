@@ -1,0 +1,21 @@
+:8080 {
+    handle /api* {
+		reverse_proxy localhost:7022
+	}
+
+	handle_path /files* {
+		root * /files
+		file_server browse
+	}
+
+	handle {
+		root * /srv
+		file_server browse
+	}
+}
+
+:7022 {
+	respond "Goodbye, world!" 
+}
+
+# QUESTION: https://stackoverflow.com/questions/71411688/caddy-file-server-browse-not-working-when-i-root-a-specific-directory

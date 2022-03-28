@@ -1,0 +1,19 @@
+http://example.com {
+  redir https://example.com{uri}
+}
+
+https://example.com  https://www.example.com {
+  reverse_proxy {
+    header_up X-Forwarded-Host $host;
+    header_up Upgrade $http_upgrade;
+    header_up Connection "Upgrade";
+    header_up Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";  
+    lb_policy round_robin
+    to 10.124.16.2:4000
+  }
+  header ?Cache-Control "max-age=3600"
+  encode zstd gzip
+  log {
+    output stdout
+  }
+}
