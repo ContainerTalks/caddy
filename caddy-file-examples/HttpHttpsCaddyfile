@@ -1,0 +1,12 @@
+# Removes the Server header response
+(common) {
+    header /* {
+        -Server
+    }
+}
+# Follwoing domain will be runnign with http and https, with 301 permanent direct for http to htpps
+example.com {
+    ....
+    .....
+    import common
+}

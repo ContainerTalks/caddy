@@ -1,0 +1,16 @@
+www.example.com {  
+    redir https://example.com{uri} permanent
+}
+
+http://example.com {
+    redir https://example.com{uri} permanent
+}
+
+http://www.example.com {
+   redir https://example.com{uri} permanent 
+}
+
+https://example.com {
+    .....
+    ...
+}
