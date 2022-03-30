@@ -32,6 +32,38 @@ Caddy also redirects any HTTP traffic to HTTPS when using the `tls` directive. Y
 
 ### Custom SSL Configuration 
 
+Add your private key and certificate chain in Caddy as below
+
+```bash
+tls cert key
+```
+
+**cert**: is the certificate file. If the certificate is signed by a CA, this certificate file should be a bundle: a concatenation of the server's certificate followed by the CA's certificate.
+
+```bash
+cat server.crt bundle.pem > fullchain.pem
+```
+
+**key** is the server's private key file which matches the certificate file.
+
+Configuring Caddy specifically to listen on HTTP and HTTPS default ports by specifying the scheme for each site.
+
+```bash
+# HTTP->HTTPS redirects
+http://xyz.example, http://api.xyz.example {
+  redir https://{host}{uri}
+}
+
+https://xyz.example {
+    # Custom SSL Conf
+    tls /ssl/certs/fullchain.pem /ssl/certs/key.pem
+}
+
+https://api.xyz.example {
+    # Custom SSL Conf
+    tls /ssl/certs/fullchain.pem /ssl/certs/key.pem
+}
+```
 ## Ref
 - [SSL Labs](https://www.ssllabs.com/ssltest).
 - [ACME](https://cert-manager.io/docs/configuration/acme/)

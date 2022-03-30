@@ -1,0 +1,26 @@
+# Redirect Subdomain, but this is also covered by bellow two examples
+www.example.info {
+    redir https://marleneschulz.info{uri}
+}
+
+
+http://, https:// {
+    redir https://marleneschulz.info{uri}
+}
+
+# OR
+
+:80, 443: {
+    redir https://example.com{uri}
+}
+
+# Redirecting Here
+https://example.com {
+    root /app/html
+    proxy / django_prod:5000 {
+        header_upstream Host {host}
+        header_upstream X-Real-IP {remote}
+        header_upstream X-Forwarded-Proto {scheme}
+        except /static
+    }
+}
