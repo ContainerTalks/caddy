@@ -1,0 +1,4 @@
+:9001 {
+    root * /var/www/app-one
+    file_server
+}

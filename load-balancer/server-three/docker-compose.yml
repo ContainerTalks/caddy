@@ -1,0 +1,21 @@
+version: "3"
+services:
+  caddy:
+    restart: always
+    image: caddy:2.4.6
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - 8001:9001
+      - 8002:9002
+
+    volumes:
+      - ./app-one:/var/www/app-one
+      - ./app-two:/var/www/app-two
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+volumes:
+  caddy_data: 
+  caddy_config:
