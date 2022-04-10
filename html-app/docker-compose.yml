@@ -7,8 +7,12 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - 8001:9001
+      - 8002:9002
+
     volumes:
-      - ./app:/var/www/public_html
+      - ./app-one:/var/www/app-one
+      - ./app-two:/var/www/app-two
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config

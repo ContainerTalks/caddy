@@ -1,5 +1,8 @@
-http:// {
-    root * /var/www/public_html
-    encode gzip
+:9001 {
+    root * /var/www/app-one
+    file_server
+}
+:9002 {
+    root * /var/www/app-two
     file_server
 }
