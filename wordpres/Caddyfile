@@ -1,0 +1,22 @@
+# PRODUCTION CONF WITH DOMAIN
+# http://website.com, http://www.website.com {
+#   redir https://{host}{uri}
+# }
+
+# https://website.com  https://www.website.com {
+#       tls /certs/website.com.chained.crt /certs/website.com.key
+#       root * /var/www/html
+#       php_fastcgi wordpress:9000
+#       file_server
+#       encode zstd gzip
+#       log {
+#           output stdout
+#       }
+# }
+
+# TEST LOCALLY WITH 8080
+:8080 {
+  root * /var/www/html
+  php_fastcgi wordpress:9000
+  file_server
+}

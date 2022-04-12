@@ -1,0 +1,44 @@
+version: "3.7"
+services:
+  mariadb:
+    image: mariadb:10
+    container_name: mariadb
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql_root_pass
+      MYSQL_DATABASE: db_name
+      MYSQL_USER: user_name
+      MYSQL_PASSWORD: user_pass
+    restart: always
+  wordpress:
+    image: wordpress:php8.1-fpm
+    container_name: wordpress
+    volumes:
+      - ./website/wordpress:/var/www/html
+      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
+    depends_on:
+      - mariadb
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: mysql_root_pass
+      WORDPRESS_DB_NAME: db_name
+      WORDPRESS_DB_USER: user_name
+      WORDPRESS_DB_PASSWORD: user_pass
+      WORDPRESS_TABLE_PREFIX: wp_
+    links:
+      - mariadb
+    restart: always
+  caddy:
+    image: caddy:2.4.6
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./website/wordpress:/var/www/html
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+      # Add SSL certificates to certs folder
+      # - $PWD/certs:/certs
