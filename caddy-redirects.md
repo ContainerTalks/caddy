@@ -1,9 +1,9 @@
 
 # Redirection in Caddy
 
-Caddy is schemy-agnostic with the following we can achieve `http` to `https` by default with the following
+Caddy is schema-agnostic with the following we can achieve `HTTP` to `HTTPS` by default with the following
 
-## Redirect all HTTP requests to HTTPS with 301 redirect 
+## Redirect all HTTP requests to HTTPS with a 301 redirect 
 
 Caddy will run a 301 Redirect listening on HTTP and serve the actual site on HTTPS, but not `www`.
 
@@ -16,7 +16,7 @@ example.com {
 
 ## Manual Redirection 
 
-Manual defintion of the http and https will do the job in two ways 
+Manual definition of the HTTP and https will do the job in two ways 
 
 1. Blanket Redirect 
 2. Subdomain Redirect
@@ -24,7 +24,7 @@ Manual defintion of the http and https will do the job in two ways
 
 ### 1. Blanket 
 
-`redir`, for entire HTTP version of site
+`redir`, for the entire HTTP version of the site
 
 ```bash
 http://example.com {
@@ -60,7 +60,7 @@ https://example.com {
 
 ## 2. Schema Check Redirect
 
-`redir`, check for HTTP scheme and redirect
+`redir`, check for HTTP scheme, and redirect
 
 ```bash
 http://example.com, https://example.com {
