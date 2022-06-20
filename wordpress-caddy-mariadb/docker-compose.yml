@@ -1,10 +1,16 @@
-version: "3.7"
+version: "3.8"
+volumes:
+  mariadb_data:
+  wordpres_html:
+  caddy_data:
+  caddy_config:
+  caddy_certs:
 services:
   mariadb:
     image: mariadb:10
     container_name: mariadb
     volumes:
-      - ./mariadb:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: mysql_root_pass
       MYSQL_DATABASE: db_name
@@ -15,7 +21,7 @@ services:
     image: wordpress:php8.1-fpm
     container_name: wordpress
     volumes:
-      - ./website/wordpress:/var/www/html
+      - wordpres_html:/var/www/html
       - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
     depends_on:
       - mariadb
@@ -36,9 +42,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./website/wordpress:/var/www/html
+      - wordpres_html:/var/www/html
       - $PWD/Caddyfile:/etc/caddy/Caddyfile
-      - ./caddy/data:/data
-      - ./caddy/config:/config
-      # Add SSL certificates to certs folder
-      # - $PWD/certs:/certs
+      - caddy_data:/data
+      - caddy_config:/config
+      - caddy_certs:/certs
