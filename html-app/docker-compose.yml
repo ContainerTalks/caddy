@@ -2,13 +2,13 @@ version: "3"
 services:
   caddy:
     restart: always
-    image: caddy:2.4.6
+    image: caddy:latest
     container_name: caddy
     ports:
       - "80:80"
       - "443:443"
-      - 8001:9001
-      - 8002:9002
+      - 9001:9001
+      - 9002:9002
 
     volumes:
       - ./app-one:/var/www/app-one
